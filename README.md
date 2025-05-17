@@ -1,2 +1,3 @@
 # E-commerce
-Spring boot application with fetures like order,  inventory management 
+Spring boot application with features like order,  inventory management, user access
+
