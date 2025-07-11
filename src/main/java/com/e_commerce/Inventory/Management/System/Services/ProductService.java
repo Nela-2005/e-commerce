@@ -7,8 +7,11 @@ import com.e_commerce.Inventory.Management.System.Repository.CategoryRepository;
 import com.e_commerce.Inventory.Management.System.Repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,11 +27,12 @@ public class ProductService {
         Product product = ProductMapper.INSTANCE.productDtoToProduct(productDto);
         return productRepository.save(product);
     }
-//    public void updateProduct(ProductDto productDto){
-//        Product product = modelMapper.map(productDto,Product.class);
-//        product.setCategory(new Category(productDto.getCategoryId()));
-//        productRepository.save(product);
-//    }
+
+    public Product updateProduct(ProductDto productDto){
+        Product product = ProductMapper.INSTANCE.productDtoToProduct(productDto);
+        product.setCategory(new Category(productDto.getCategoryId()));
+        return productRepository.save(product);
+    }
 
     public List<Product> getAllProducts(){
         return productRepository.findAll();
@@ -42,5 +46,29 @@ public class ProductService {
     }
     public void deleteProductById(Long id){
         productRepository.deleteById(id);
+    }
+
+    public List<Product> getLowStockProducts(Integer limit) {
+        return productRepository.findByStockQuantityLessThan(limit);
+    }
+
+    public CategoryRepository getCategoryRepository() {
+        return categoryRepository;
+    }
+
+    public void setCategoryRepository(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
+
+    public ProductRepository getProductRepository() {
+        return productRepository;
+    }
+
+    public void setProductRepository(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+
+    public Page<Product> getProductsPaginated(Pageable pageable) {
+        return productRepository.findAll(pageable);
     }
 }

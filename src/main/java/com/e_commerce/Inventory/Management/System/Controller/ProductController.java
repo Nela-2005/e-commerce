@@ -32,8 +32,15 @@ public class ProductController {
         return ResponseEntity.ok(product);
     }
 
-//    @PatchMapping
-//    public void update(@RequestBody ProductDto productDto){
-//        productService.updateProduct(productDto);
-//    }
+    @GetMapping("low-stock")
+    public ResponseEntity<List<Product>>lowStock(@RequestParam(name="limit")Integer limit){
+        List<Product> products = this.productService.getLowStockProducts(limit);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+
+    }
+
+    @PatchMapping
+    public void update(@RequestBody ProductDto productDto){
+        productService.updateProduct(productDto);
+    }
 }

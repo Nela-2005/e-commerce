@@ -6,11 +6,9 @@ public class ProductDto {
     private Integer price;
     private Integer stockQuantity;
     private Long categoryId;
-
     public Long getCategoryId() {
         return categoryId;
     }
-
     public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
     }
